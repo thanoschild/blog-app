@@ -1,9 +1,10 @@
 import { auth, signIn, signOut } from '@/auth';
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { BadgePlus, LogOut } from 'lucide-react';
+import { BadgePlus, LogIn, LogOut } from 'lucide-react';
 import Image from 'next/image'
 import Link from 'next/link'
 import React from 'react'
+import { Button } from "@/components/ui/button";
 
 const Navbar = async () => {
     const session = await auth();
@@ -19,18 +20,27 @@ const Navbar = async () => {
                         session && session?.user ? (
                             <>
                                 <Link href="/startup/create">
-                                    <span className="max-sm:hidden">Create</span>
-                                    <BadgePlus className="size-6 sm:hidden" />
+                                    <Button 
+                                        variant="outline" 
+                                        className="flex items-center gap-2 rounded-lg hover:bg-pink-50"
+                                    >
+                                        <BadgePlus className="size-5" />
+                                        <span className="hidden sm:inline">Create Startup</span>
+                                    </Button>
                                 </Link>
 
                                 <form action={async () => {
                                     "use server";
                                     await signOut();
                                 }}>
-                                    <button type="submit">
-                                        <span className="max-sm:hidden">Logout</span>
-                                        <LogOut className="size-6 sm:hidden text-red-500" />
-                                    </button>
+                                    <Button 
+                                        type="submit"
+                                        variant="outline" 
+                                        className="flex items-center gap-2 rounded-lg hover:bg-red-50"
+                                    >
+                                        <LogOut className="size-5" />
+                                        <span className="hidden sm:inline">Logout</span>
+                                    </Button>
                                 </form>
 
                                 <Link href={`/user/${session?.user?.id}`}>
@@ -48,9 +58,14 @@ const Navbar = async () => {
                                 "use server";
                                 await signIn("github");
                             }}>
-                                <button type="submit">
-                                    Login
-                                </button>
+                                <Button 
+                                    type="submit"
+                                    variant="outline" 
+                                    className="flex items-center gap-2 rounded-lg hover:bg-pink-50"
+                                >
+                                    <LogIn className="size-5" />
+                                    <span className="hidden sm:inline">Login</span>
+                                </Button>
                             </form>
 
                         )
